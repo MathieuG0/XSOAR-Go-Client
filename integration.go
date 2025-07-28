@@ -66,7 +66,7 @@ type IntegrationInstance struct {
 	PrevName               string                           `json:"prevName"`
 	Password               string                           `json:"password"`
 	Enabled                bool                             `json:"enabled,string"`
-	ConfigValues           map[string]any                   `json:"configvalues"`
+	ConfigValues           json.RawMessage                  `json:"configvalues"`
 	ConfigTypes            map[string]int                   `json:"configtypes"`
 	Path                   string                           `json:"path"`
 	Executable             string                           `json:"executable"`
@@ -266,7 +266,6 @@ type IntegrationInstanceUpsert struct {
 	Brand               string                          `json:"brand"`
 	Version             int                             `json:"version"`
 	Enabled             bool                            `json:"enabled,string"`
-	ConfigValues        map[string]any                  `json:"configvalues,omitempty"`
 	Engine              string                          `json:"engine"`
 	EngineGroup         string                          `json:"engineGroup"`
 	Hidden              bool                            `json:"hidden"`
