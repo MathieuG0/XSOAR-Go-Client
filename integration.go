@@ -67,7 +67,7 @@ type IntegrationInstance struct {
 	Password               string                           `json:"password"`
 	Enabled                bool                             `json:"enabled,string"`
 	ConfigValues           json.RawMessage                  `json:"configvalues"`
-	ConfigTypes            map[string]int                   `json:"configtypes"`
+	ConfigTypes            map[string]IntegrationParamType  `json:"configtypes"`
 	Path                   string                           `json:"path"`
 	Executable             string                           `json:"executable"`
 	Cmdline                string                           `json:"cmdline"`
