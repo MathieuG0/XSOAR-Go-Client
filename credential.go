@@ -28,7 +28,7 @@ type Credential struct {
 type CredentialUpsert struct {
 	ID             string `json:"id,omitempty"`
 	HasCertificate bool   `json:"hasCertificate,omitempty"`
-	HasPassword    bool   `json:"hasCertificatePass,omitempty"`
+	HasPassword    bool   `json:"hasPassword,omitempty"`
 	Name           string `json:"name,omitempty"`
 	Password       string `json:"password,omitempty"`
 	SSHKey         string `json:"sshkey,omitempty"`
