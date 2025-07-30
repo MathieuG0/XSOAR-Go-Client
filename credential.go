@@ -62,7 +62,7 @@ func (m *IntegrationModule) ListCredentials() (CredentialSearch, error) {
 		return CredentialSearch{}, err
 	}
 
-	return Decode[CredentialSearch](resp)
+	return HTTPResponseDecode[CredentialSearch](resp)
 }
 
 func (m *IntegrationModule) UpsertCredential(credential CredentialUpsert) (Credential, error) {
@@ -86,7 +86,7 @@ func (m *IntegrationModule) UpsertCredential(credential CredentialUpsert) (Crede
 		return Credential{}, err
 	}
 
-	return Decode[Credential](resp)
+	return HTTPResponseDecode[Credential](resp)
 }
 
 func (m *IntegrationModule) DeleteCredential(id string) error {

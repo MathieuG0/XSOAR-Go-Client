@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/MathieuG0/XSOAR-Go-Client/cache"
 )
 
 type User struct {
@@ -104,6 +106,7 @@ type InviteSearch struct {
 
 type UserModule struct {
 	client *Client
+	cache  *cache.Cache
 }
 
 func (m *UserModule) GetUsers() ([]User, error) {
@@ -120,7 +123,7 @@ func (m *UserModule) GetUsers() ([]User, error) {
 		return nil, err
 	}
 
-	return Decode[[]User](resp)
+	return HTTPResponseDecode[[]User](resp)
 }
 
 func (m *UserModule) CreateInvite(i InviteCreation) (Invite, error) {
@@ -144,7 +147,7 @@ func (m *UserModule) CreateInvite(i InviteCreation) (Invite, error) {
 		return Invite{}, err
 	}
 
-	return Decode[Invite](resp)
+	return HTTPResponseDecode[Invite](resp)
 }
 
 func (m *UserModule) UtilizeInvite(i InviteUtilization) (User, error) {
@@ -168,7 +171,7 @@ func (m *UserModule) UtilizeInvite(i InviteUtilization) (User, error) {
 		return User{}, err
 	}
 
-	return Decode[User](resp)
+	return HTTPResponseDecode[User](resp)
 }
 
 func (m *UserModule) DeleteInvite(ids ...string) (InviteSearch, error) {
@@ -192,7 +195,7 @@ func (m *UserModule) DeleteInvite(ids ...string) (InviteSearch, error) {
 		return InviteSearch{}, err
 	}
 
-	return Decode[InviteSearch](resp)
+	return HTTPResponseDecode[InviteSearch](resp)
 }
 
 func (m *UserModule) ResetPassword(p UserPasswordReset) error {
@@ -237,7 +240,7 @@ func (m *UserModule) Disable(id string) ([]User, error) {
 		return nil, err
 	}
 
-	return Decode[[]User](resp)
+	return HTTPResponseDecode[[]User](resp)
 }
 
 func (m *UserModule) Enable(id string) ([]User, error) {
@@ -261,7 +264,7 @@ func (m *UserModule) Enable(id string) ([]User, error) {
 		return nil, err
 	}
 
-	return Decode[[]User](resp)
+	return HTTPResponseDecode[[]User](resp)
 }
 
 func (m *UserModule) Update(u UserRoleUpdate) ([]User, error) {
@@ -285,7 +288,7 @@ func (m *UserModule) Update(u UserRoleUpdate) ([]User, error) {
 		return nil, err
 	}
 
-	return Decode[[]User](resp)
+	return HTTPResponseDecode[[]User](resp)
 }
 
 func (m *UserModule) Delete(ids ...string) ([]User, error) {
@@ -309,5 +312,5 @@ func (m *UserModule) Delete(ids ...string) ([]User, error) {
 		return nil, err
 	}
 
-	return Decode[[]User](resp)
+	return HTTPResponseDecode[[]User](resp)
 }

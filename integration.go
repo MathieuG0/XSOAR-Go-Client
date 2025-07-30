@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"strings"
 	"time"
+
+	"github.com/MathieuG0/XSOAR-Go-Client/cache"
 )
 
 type IntegrationParamType int
@@ -287,6 +289,7 @@ type SearchIntegrationsOptions struct {
 
 type IntegrationModule struct {
 	client *Client
+	cache  *cache.Cache
 }
 
 func (m *IntegrationModule) GetInstances() ([]IntegrationInstance, error) {
@@ -300,7 +303,7 @@ func (m *IntegrationModule) GetInstances() ([]IntegrationInstance, error) {
 		return nil, err
 	}
 
-	return Decode[[]IntegrationInstance](resp)
+	return HTTPResponseDecode[[]IntegrationInstance](resp)
 }
 
 func (m *IntegrationModule) UpsertInstance(instance IntegrationInstanceUpsert) (IntegrationInstance, error) {
@@ -326,7 +329,7 @@ func (m *IntegrationModule) UpsertInstance(instance IntegrationInstanceUpsert) (
 		return IntegrationInstance{}, err
 	}
 
-	return Decode[IntegrationInstance](resp)
+	return HTTPResponseDecode[IntegrationInstance](resp)
 }
 
 func (m *IntegrationModule) DeleteInstance(id string) error {
@@ -364,7 +367,7 @@ func (m *IntegrationModule) SearchIntegrations(opt *SearchIntegrationsOptions) (
 		return IntegrationSearch{}, err
 	}
 
-	return Decode[IntegrationSearch](resp)
+	return HTTPResponseDecode[IntegrationSearch](resp)
 }
 
 func (m *IntegrationModule) GetIntegrationCommands() ([]IntegrationCommands, error) {
@@ -378,5 +381,5 @@ func (m *IntegrationModule) GetIntegrationCommands() ([]IntegrationCommands, err
 		return nil, err
 	}
 
-	return Decode[[]IntegrationCommands](resp)
+	return HTTPResponseDecode[[]IntegrationCommands](resp)
 }

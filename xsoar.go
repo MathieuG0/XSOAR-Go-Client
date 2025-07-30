@@ -7,6 +7,8 @@ import (
 	"os"
 	"slices"
 
+	"github.com/MathieuG0/XSOAR-Go-Client/cache"
+	"github.com/hashicorp/go-cleanhttp"
 	retryablehttp "github.com/hashicorp/go-retryablehttp"
 	"github.com/pkg/errors"
 )
@@ -18,8 +20,8 @@ const (
 type ClientOption func(*Client) error
 
 type Client struct {
-	// HTTP client used to request Cortex XSOAR's API
-	client *retryablehttp.Client
+	// HTTP httpClient used to request Cortex XSOAR's API
+	httpClient *retryablehttp.Client
 
 	// Base URL of the XSOAR server
 	baseURL *url.URL
@@ -41,25 +43,27 @@ type Client struct {
 }
 
 func NewClient(options ...ClientOption) (*Client, error) {
-	c := &Client{userAgent: userAgent}
+	cache := cache.NewCache()
+	client := &Client{userAgent: userAgent}
 
-	c.client = retryablehttp.NewClient()
+	client.httpClient = retryablehttp.NewClient()
+	client.httpClient.RetryMax = 0
 
-	c.setDefaultConfig()
+	client.setDefaultConfig()
 
 	for _, fn := range options {
-		err := fn(c)
+		err := fn(client)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	c.Integration = &IntegrationModule{c}
-	c.Role = &RoleModule{c}
-	c.User = &UserModule{c}
-	c.Server = &ServerModule{c}
+	client.Integration = &IntegrationModule{client, cache}
+	client.Role = &RoleModule{client, cache}
+	client.User = &UserModule{client, cache}
+	client.Server = &ServerModule{client, cache}
 
-	return c, nil
+	return client, nil
 }
 
 func WithBaseURL(baseURL string) ClientOption {
@@ -90,10 +94,9 @@ func WithoutSSLVerify() ClientOption {
 }
 
 func (c *Client) disableSSLVerify() {
-	t := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-	}
-	c.client.HTTPClient.Transport = t
+	t := cleanhttp.DefaultPooledTransport()
+	t.TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	c.httpClient.HTTPClient.Transport = t
 }
 
 func (c *Client) setBaseURL(baseURL string) (err error) {
@@ -167,7 +170,7 @@ func (c *Client) NewRequest(method string, endpoint string, options ...RequestOp
 }
 
 func (c *Client) Do(req *retryablehttp.Request, okCodes ...int) (*http.Response, error) {
-	resp, err := c.client.Do(req)
+	resp, err := c.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}

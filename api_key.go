@@ -50,7 +50,7 @@ func (m *IntegrationModule) ListAPIKeys() ([]APIKey, error) {
 		return nil, err
 	}
 
-	return Decode[[]APIKey](resp)
+	return HTTPResponseDecode[[]APIKey](resp)
 }
 
 func (m *IntegrationModule) CreateAPIKey(name string) (APIKey, error) {
@@ -76,7 +76,7 @@ func (m *IntegrationModule) CreateAPIKey(name string) (APIKey, error) {
 		return APIKey{}, err
 	}
 
-	keys, err := Decode[[]APIKey](resp)
+	keys, err := HTTPResponseDecode[[]APIKey](resp)
 	if err != nil {
 		return APIKey{}, err
 	}
@@ -105,5 +105,5 @@ func (m *IntegrationModule) DeleteAPIKey(id string) ([]APIKey, error) {
 		return nil, err
 	}
 
-	return Decode[[]APIKey](resp)
+	return HTTPResponseDecode[[]APIKey](resp)
 }

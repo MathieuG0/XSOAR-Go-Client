@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"net/http"
 	"time"
+
+	"github.com/MathieuG0/XSOAR-Go-Client/cache"
 )
 
 type Shift struct {
@@ -93,6 +95,7 @@ type Role struct {
 
 type RoleModule struct {
 	client *Client
+	cache  *cache.Cache
 }
 
 func (m *RoleModule) GetRoles() ([]Role, error) {
@@ -109,7 +112,7 @@ func (m *RoleModule) GetRoles() ([]Role, error) {
 		return nil, err
 	}
 
-	return Decode[[]Role](resp)
+	return HTTPResponseDecode[[]Role](resp)
 }
 
 func (m *RoleModule) UpsertRole(r Role) ([]Role, error) {
@@ -133,7 +136,7 @@ func (m *RoleModule) UpsertRole(r Role) ([]Role, error) {
 		return nil, err
 	}
 
-	return Decode[[]Role](resp)
+	return HTTPResponseDecode[[]Role](resp)
 }
 
 func (m *RoleModule) DeleteRole(id string) ([]Role, error) {
@@ -150,5 +153,5 @@ func (m *RoleModule) DeleteRole(id string) ([]Role, error) {
 		return nil, err
 	}
 
-	return Decode[[]Role](resp)
+	return HTTPResponseDecode[[]Role](resp)
 }

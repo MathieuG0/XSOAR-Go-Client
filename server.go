@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"reflect"
 
+	"github.com/MathieuG0/XSOAR-Go-Client/cache"
 	"github.com/pkg/errors"
 )
 
@@ -34,6 +35,7 @@ type SystemConfigUpdate struct {
 
 type ServerModule struct {
 	client *Client
+	cache  *cache.Cache
 }
 
 func toSystemConfig(input systemConfig) (SystemConfig, error) {
@@ -75,7 +77,7 @@ func (m *ServerModule) GetConfig() (SystemConfig, error) {
 		return SystemConfig{}, err
 	}
 
-	config, err := Decode[systemConfig](resp)
+	config, err := HTTPResponseDecode[systemConfig](resp)
 	if err != nil {
 		return SystemConfig{}, err
 	}
@@ -104,7 +106,7 @@ func (m *ServerModule) UpdateConfig(c SystemConfigUpdate) (SystemConfig, error) 
 		return SystemConfig{}, err
 	}
 
-	config, err := Decode[systemConfig](resp)
+	config, err := HTTPResponseDecode[systemConfig](resp)
 	if err != nil {
 		return SystemConfig{}, err
 	}

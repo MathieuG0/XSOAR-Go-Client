@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func Decode[T any](resp *http.Response) (T, error) {
+func HTTPResponseDecode[T any](resp *http.Response) (T, error) {
 	defer resp.Body.Close()
 	v := new(T)
 	decoder := json.NewDecoder(resp.Body)
@@ -14,7 +14,7 @@ func Decode[T any](resp *http.Response) (T, error) {
 }
 
 func GetMessage(resp *http.Response) string {
-	message, err := Decode[json.RawMessage](resp)
+	message, err := HTTPResponseDecode[json.RawMessage](resp)
 	if err != nil {
 		return ""
 	}
