@@ -203,6 +203,8 @@ type Integration struct {
 	Deprecated                        bool                      `json:"deprecated"`
 	DefaultMapperIn                   string                    `json:"defaultClassifier"`
 	DefaultClassifier                 string                    `json:"defaultMapperIn"`
+	SourceModuleID                    string                    `json:"sourceModuleID"`
+	DefaultMapperOut                  string                    `json:"defaultMapperOut"`
 }
 
 type Engines struct {
