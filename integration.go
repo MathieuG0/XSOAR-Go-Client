@@ -38,7 +38,7 @@ type InstanceIntegrationData struct {
 	Options         []string             `json:"options"`
 	Info            string               `json:"info"`
 	Hasvalue        bool                 `json:"hasvalue"`
-	Value           json.RawMessage      `json:"value"`
+	Value           any                  `json:"value"`
 }
 
 type IntegrationPermission struct {
@@ -119,7 +119,7 @@ type IntegrationCommandArgument struct {
 	Predefined   []string `json:"predefined"`
 }
 
-type IntegationCommand struct {
+type IntegrationCommand struct {
 	Name            string                       `json:"name"`
 	Deprecated      bool                         `json:"deprecated"`
 	Arguments       []IntegrationCommandArgument `json:"arguments"`
@@ -140,25 +140,25 @@ type IntegationCommand struct {
 }
 
 type IntegrationScript struct {
-	Script                 string              `json:"script"`
-	Type                   string              `json:"type"`
-	Commands               []IntegationCommand `json:"commands"`
-	DockerImage            string              `json:"dockerImage"`
-	NativeImage            []string            `json:"nativeImage"`
-	IsFetch                bool                `json:"isFetch"`
-	IsFetchEvents          bool                `json:"isFetchEvents"`
-	IsFetchAssets          bool                `json:"isFetchAssets"`
-	Feed                   bool                `json:"feed"`
-	IsFetchCredentials     bool                `json:"isFetchCredentials"`
-	RunOnce                bool                `json:"runOnce"`
-	LongRunning            bool                `json:"longRunning"`
-	LongRunningPortMapping bool                `json:"longRunningPortMapping"`
-	Subtype                string              `json:"subtype"`
-	IsMappable             bool                `json:"isMappable"`
-	IsRemoteSyncIn         bool                `json:"isRemoteSyncIn"`
-	IsRemoteSyncOut        bool                `json:"isRemoteSyncOut"`
-	IsFetchSamples         bool                `json:"isFetchSamples"`
-	ResetContext           bool                `json:"resetContext"`
+	Script                 string               `json:"script"`
+	Type                   string               `json:"type"`
+	Commands               []IntegrationCommand `json:"commands"`
+	DockerImage            string               `json:"dockerImage"`
+	NativeImage            []string             `json:"nativeImage"`
+	IsFetch                bool                 `json:"isFetch"`
+	IsFetchEvents          bool                 `json:"isFetchEvents"`
+	IsFetchAssets          bool                 `json:"isFetchAssets"`
+	Feed                   bool                 `json:"feed"`
+	IsFetchCredentials     bool                 `json:"isFetchCredentials"`
+	RunOnce                bool                 `json:"runOnce"`
+	LongRunning            bool                 `json:"longRunning"`
+	LongRunningPortMapping bool                 `json:"longRunningPortMapping"`
+	Subtype                string               `json:"subtype"`
+	IsMappable             bool                 `json:"isMappable"`
+	IsRemoteSyncIn         bool                 `json:"isRemoteSyncIn"`
+	IsRemoteSyncOut        bool                 `json:"isRemoteSyncOut"`
+	IsFetchSamples         bool                 `json:"isFetchSamples"`
+	ResetContext           bool                 `json:"resetContext"`
 }
 
 type Integration struct {
@@ -246,15 +246,15 @@ type IntegrationSearch struct {
 }
 
 type IntegrationCommands struct {
-	ID                  string              `json:"id"`
-	Name                string              `json:"name"`
-	Display             string              `json:"display"`
-	Category            string              `json:"category"`
-	Description         string              `json:"description"`
-	DetailedDescription string              `json:"detailedDescription"`
-	Commands            []IntegationCommand `json:"commands"`
-	Feed                bool                `json:"feed"`
-	IsFetch             bool                `json:"isFetch"`
+	ID                  string               `json:"id"`
+	Name                string               `json:"name"`
+	Display             string               `json:"display"`
+	Category            string               `json:"category"`
+	Description         string               `json:"description"`
+	DetailedDescription string               `json:"detailedDescription"`
+	Commands            []IntegrationCommand `json:"commands"`
+	Feed                bool                 `json:"feed"`
+	IsFetch             bool                 `json:"isFetch"`
 }
 
 type InstanceIntegrationDataUpsert struct {
